@@ -11,16 +11,16 @@ public class TakegameImpl implements Game {
     public static final String COMPUTER_MESSAGE = "Computer nimmt %s Steine.\n";
     private final Scanner scanner = new Scanner(System.in);
     private int stones;
-    private boolean gameover;
+    private int turn;
 
     public TakegameImpl() {
         this.stones = 23;
-        this.gameover =false;
+
     }
 
     @Override
     public void play() {
-        while( ! gameover) {
+        while( ! gameover()) {
             executeTurns();
         }
     }
@@ -31,7 +31,8 @@ public class TakegameImpl implements Game {
     }
 
     private void humanTurn() {
-        int turn;
+        if(gameover()) return;
+
 
         while(true) {
             print(String.format(USER_PROMP, stones));
@@ -39,31 +40,41 @@ public class TakegameImpl implements Game {
             if(turn >=1 && turn <= 3) break;
             print(ERROR_MESSAGE);
         }
-        stones-=turn;
+        terminateTurn("Mensch");
     }
 
     private void computerturn() {
 
-        if(stones <= 0) {
-            print("Du Loser");
-            gameover = true;
-            return;
-        }
-        if(stones == 1) {
-            print("Du hast nur Glueck gehabt!");
-            gameover = true;
-            return;
-        }
+        if(gameover()) return ;
+
 
         final int possibleTurns[] = {3,1,1,2};
-        int turn = possibleTurns[stones % 4];
+         turn = possibleTurns[stones % 4];
 
         print(String.format(COMPUTER_MESSAGE, turn));
 
-        stones -= turn;
+        terminateTurn("Computer");
     }
 
+    private void terminateTurn( String player) {
+        updateScene();
+        ckeckLosing(player);
+    }
+
+    private void ckeckLosing(String player) {
+        if (gameover()) {
+            print(String.format("Spieler %s hat verloren.", player));
+        }
+    }
     private void print(String message) {
         System.out.println(message);
     }
+    private void updateScene() {
+        stones -= turn;
+    }
+
+    private boolean gameover() {
+        return stones <= 0;
+    }
+
 }
