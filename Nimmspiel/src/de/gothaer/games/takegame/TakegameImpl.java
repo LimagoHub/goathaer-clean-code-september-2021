@@ -32,16 +32,11 @@ public class TakegameImpl implements Game {
 
     private void humanTurn() {
         if(gameover()) return;
-
-
-        while(true) {
-            print(String.format(USER_PROMP, stones));
-            turn = scanner.nextInt();;
-            if(turn >=1 && turn <= 3) break;
-            print(ERROR_MESSAGE);
-        }
+        executeSingleTurnUntilValid();
         terminateTurn("Mensch");
     }
+
+
 
     private void computerturn() {
 
@@ -56,18 +51,46 @@ public class TakegameImpl implements Game {
         terminateTurn("Computer");
     }
 
-    private void terminateTurn( String player) {
-        updateScene();
-        ckeckLosing(player);
+
+    private void executeSingleTurnUntilValid() {
+
+        do
+            turn = doTurn(stones);
+        while (playersTurnIsInvalid());
+
     }
 
-    private void ckeckLosing(String player) {
+
+    private int doTurn(int stones) {
+        System.out.println(String.format(USER_PROMP, stones));
+        return scanner.nextInt();
+    }
+
+    private boolean playersTurnIsInvalid() {
+        if (isTurnValid()) {
+            return false;
+        }
+        print(ERROR_MESSAGE);
+        return true;
+    }
+
+
+    private void terminateTurn( String player) {
+        updateScene();
+        checkLosing(player);
+    }
+
+    private void checkLosing(String player) {
         if (gameover()) {
             print(String.format("Spieler %s hat verloren.", player));
         }
     }
     private void print(String message) {
         System.out.println(message);
+    }
+
+    private boolean isTurnValid() {
+        return turn >=1 && turn <= 3;
     }
     private void updateScene() {
         stones -= turn;
