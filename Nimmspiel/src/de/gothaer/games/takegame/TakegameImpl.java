@@ -24,4 +24,8 @@ public class TakegameImpl extends AbstractGame<Integer,Integer> {
         return getScene() <= 0 || getPlayers().isEmpty();
     }
 
+    @Override
+    protected void beforeExecute() {
+        print(String.format("%s ist am Zug.", getCurrentPlayer().getName()));
+    }
 }

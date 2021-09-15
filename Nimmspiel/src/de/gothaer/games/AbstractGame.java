@@ -1,7 +1,6 @@
 package de.gothaer.games;
 
 import de.gothaer.games.players.GamePlayer;
-import de.gothaer.games.takegame.player.TakegamePlayer;
 import de.gothaer.io.ConsoleWriter;
 import de.gothaer.io.Writer;
 
@@ -9,12 +8,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @param <Scene>
+ * @param <Turn>
+ */
 public abstract class AbstractGame<Scene, Turn> implements Game{
 
     private static final String ERROR_MESSAGE = "Ungueltiger Zug";
 
 
-
+    /*
+        bla blupp
+     */
     private GamePlayer<Scene, Turn> currentPlayer;
     private Scene scene;
     private Turn turn;
@@ -84,6 +90,7 @@ public abstract class AbstractGame<Scene, Turn> implements Game{
 
     private void executeSingleTurn() {
         if(gameover()) return;
+        beforeExecute();
         executeSingleTurnUntilValid();
         terminateTurn();
     }
@@ -122,4 +129,7 @@ public abstract class AbstractGame<Scene, Turn> implements Game{
     protected abstract boolean gameover();
     protected abstract boolean isTurnValid();
     protected abstract void updateScene();
+    protected void beforeExecute() {
+        // Ok
+    }
 }

@@ -5,6 +5,13 @@ public class ComputerPlayer extends AbstractTakegamePlayer{
     private static final String COMPUTER_MESSAGE = "Computer nimmt %s Steine.\n";
     private final static int POSSIBLE_TURNS[] = {3,1,1,2};
 
+    public ComputerPlayer() {
+    }
+
+    public ComputerPlayer(String name) {
+        super(name);
+    }
+
     @Override
     public Integer doTurn(Integer stones) {
 
