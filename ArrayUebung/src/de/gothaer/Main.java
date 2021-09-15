@@ -1,8 +1,7 @@
 package de.gothaer;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Random;
+import de.gothaer.arrays.ArrayService;
+import de.gothaer.arrays.impl.ArrayServiceImpl;
 
 public class Main {
 
@@ -11,20 +10,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(Runtime.getRuntime().availableProcessors());
+
         new Main().run();
 
 
     }
 
     private void run() {
-        Random random = new Random();
-        Instant start = Instant.now();
-        for (int i = 0; i < MAX_ARRAY_SIZE; i++) {
-            feld[i] = random.nextInt();
-        }
-        Instant ende = Instant.now();
-        Duration duration = Duration.between(start, ende);
-        System.out.println("Duration = " + duration.toMillis());
+        ArrayService arrayService = new ArrayServiceImpl();
+        arrayService.detectMostEfficientArrayFiller(feld);
     }
 }
